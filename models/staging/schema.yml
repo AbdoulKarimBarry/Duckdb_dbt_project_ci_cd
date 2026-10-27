@@ -44,14 +44,14 @@ models:
               config:
                 store_failures: true  
               arguments:
-                values: ['placed', 'shipped', 'completed', 'returned']
+                values: ['placed', 'shipped', 'completed', 'returned','other']
 
 
   - name: stg_payements
     columns:
       - <<: *anchors_alias
         name: id_payements
-        description: "Clé de primaire de  la table stg_payements."
+        description: "Clé de primaire de la table stg_payements ."
 
     
 
