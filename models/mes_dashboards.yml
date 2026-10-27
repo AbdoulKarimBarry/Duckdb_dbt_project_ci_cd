@@ -1,0 +1,13 @@
+exposures:
+  - name: revenue_dashboard
+    label: "la vue generale des payements"
+    type: dashboard
+    url: "https://bi.tool/dashboards/1"
+    maturity: high
+
+    depends_on:
+      - ref('fct_orders')
+      - ref('int_customer_orders')
+    owner:
+      name: Abdoul Karim
+      email: karimbarry@gmail.com

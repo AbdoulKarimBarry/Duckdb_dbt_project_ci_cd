@@ -1,0 +1,51 @@
+seeds:
+  - name: raw_customers
+    columns:
+     - name: id
+       description: "Clé primaire de la table raw_customers"
+       data_tests:
+         - unique
+         - not_null
+     - name: first_name
+     - name: last_name
+   
+  - name: raw_orders
+    columns:
+     - name: id
+       description: "Clé primaire de la table raw_orders"
+       data_tests:
+         - unique
+         - not_null
+     - name: user_id
+       data_tests:
+         - relationships:
+              arguments:
+                to: ref('raw_customers')
+                field: id
+         - not_null
+    
+     - name: order_date
+     - name: status
+   
+  - name: raw_payments
+    columns:
+      - name: id
+        data_tests:
+          - unique
+          - not_null
+      - name: order_id
+        data_tests:
+         #- relationships:
+              #arguments:
+                #to: ref('raw_orders')
+                #field: id
+         - not_null
+      
+      - name: payment_method
+      - name: amount
+        #data_tests:
+          #- min_value:
+              #min_val: 0
+           
+
+   

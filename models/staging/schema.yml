@@ -1,0 +1,58 @@
+
+version: 2
+
+anchors:
+  - &anchors_alias
+      name: id
+      description: "This is a unique identifier."
+      data_tests:
+        - not_null
+        - unique
+
+
+models:
+  - name: stg_customers
+    description: "La liste des clients"
+    columns:
+      - name: customer_id
+        description: "The primary key for this table"
+        data_tests:
+          - unique
+          - not_null
+  - name: stg_orders
+    config:
+      contract:
+        enforced: true
+    description : "La table des commandes"
+    columns:
+      - name: order_id
+        data_type: int
+        description: "La clé primaire de order"
+      - name: customer_id
+        data_type: int
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('stg_customers')
+                field: customer_id
+      - name: order_date
+        data_type: date
+      - name: status
+        data_type: string 
+        data_tests:
+          - accepted_values:
+              config:
+                store_failures: true  
+              arguments:
+                values: ['placed', 'shipped', 'completed', 'returned']
+
+
+  - name: stg_payements
+    columns:
+      - <<: *anchors_alias
+        name: id_payements
+        description: "Clé de primaire de  la table stg_payements."
+
+    
+
+
