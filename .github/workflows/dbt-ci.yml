@@ -17,6 +17,7 @@ jobs:
   dbt-check:
     name: Validate dbt project
     runs-on: ubuntu-latest
+    environment: DBT_PROFILE_NAME
 
     steps:
       - name: Checkout repository
