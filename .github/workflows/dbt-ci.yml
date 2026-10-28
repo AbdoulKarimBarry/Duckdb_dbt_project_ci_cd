@@ -1,0 +1,62 @@
+
+name: dbt CI
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  dbt-check:
+    name: Validate dbt project
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.13"
+          cache: pip
+          cache-dependency-path: requirements.txt
+
+      - name: Install dbt
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Check dbt version
+        run: dbt --version
+
+      - name: Configure dbt profile
+        env:
+          DBT_PROFILE_NAME: ${{ vars.DBT_PROFILE_NAME }}
+        run: |
+          mkdir -p ~/.dbt
+          printf '%s\n' \
+            "$DBT_PROFILE_NAME:" \
+            '  target: ci' \
+            '  outputs:' \
+            '    ci:' \
+            '      type: duckdb' \
+            '      path: ":memory:"' \
+            '      threads: 4' \
+            > ~/.dbt/profiles.yml
+
+      - name: Install dbt packages
+        run: dbt deps
+
+      - name: Parse dbt project
+        run: dbt parse
+
+      - name: Compile dbt project
+        run: dbt compile
