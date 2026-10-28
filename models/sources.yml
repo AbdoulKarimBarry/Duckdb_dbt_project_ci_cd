@@ -1,0 +1,26 @@
+version: 2
+sources:
+  - name: raw 
+    schema: raw_schema
+
+    tables:
+      - name: raw_customers
+      - name: raw_orders
+      - name: raw_payments
+      - name: geojson_external
+        config:
+          external_location: "https://cartomap.github.io/nl/wgs84/provincie_2025.geojson"
+      - name: raw_payments_test
+        config:
+          external_location: "seeds/raw_payments.csv"
+        columns:
+          - name: id 
+            description: "La clé primaire de cette source"
+            data_tests:
+              - unique
+              - not_null
+
+
+        
+
+
