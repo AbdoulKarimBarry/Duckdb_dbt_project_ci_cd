@@ -10,7 +10,6 @@ with payements as (
         end as amount,
         amount as amount_base
     from {{ source('raw', 'raw_payments') }}
-       where amount < 0
 
 )
 

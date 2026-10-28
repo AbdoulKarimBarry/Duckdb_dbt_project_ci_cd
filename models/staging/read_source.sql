@@ -1,1 +1,1 @@
-select * from {{ source('raw', 'geojson_external') }}
+select * from {{ source('raw', 'geojson_external') }} limit 5
