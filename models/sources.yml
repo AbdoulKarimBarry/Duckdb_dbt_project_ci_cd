@@ -6,6 +6,15 @@ sources:
     tables:
       - name: raw_customers
       - name: raw_orders
+        config:
+          loaded_at_query: |
+            select max(order_date)::timestamp from (
+              select * from {{ this }}
+              qualify count(*) over (partition by order_date::date) > 2
+              )
+          freshness:
+            error_after: {count: 2, period: day}
+
       - name: raw_payments
       - name: geojson_external
         config:

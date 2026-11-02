@@ -9,4 +9,4 @@ with orders as (
 
 )
 
-select * from orders
+select * from orders order by order_date
